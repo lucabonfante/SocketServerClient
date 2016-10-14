@@ -22,6 +22,8 @@ public class SocketClient {
                 String msg = scanner.nextLine();
 
                 if (msg.equals("bye bye")) {
+                    inr.close();
+                    outr.close();
                     s.close();
                     break;
                 }
@@ -37,7 +39,7 @@ public class SocketClient {
 
         } catch (Exception e) {
             e.printStackTrace();
-            // TODO: 14/10/2016 stampa server chiuso
+            // TODO: stampa server chiuso
         }
 
     }

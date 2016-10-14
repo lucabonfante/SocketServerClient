@@ -18,29 +18,25 @@ public class ClientHandler extends Thread{
         try {
             while (true) {
                 //inizializza input
-                InputStreamReader in = new InputStreamReader(client.getInputStream());
-                BufferedReader bufferedReader = new BufferedReader(in);
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
                 //inizializza output
-                OutputStreamWriter out = new OutputStreamWriter(client.getOutputStream());
-                BufferedWriter bufferedWriter = new BufferedWriter(out);
-
-                PrintWriter printWriter = new PrintWriter(bufferedWriter, true);
+                PrintWriter printWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(client.getOutputStream())), true);
 
                 //legge input
                 String stringa = bufferedReader.readLine();
                 System.out.println("Client " + client.getInetAddress() + " : " + stringa);
 
-
-                if (stringa.equals("bye bye")) {
+                if (stringa.equalsIgnoreCase("bye bye")) {
+                    bufferedReader.close();
+                    printWriter.close();
                     client.close();
-                } else if (stringa.equals("what my ip and port are?")) {
+                } else if (stringa.equalsIgnoreCase("what my ip and port are?")) {
                     printWriter.println("Your ip is: " + client.getInetAddress() + ", your port is: " + client.getPort());
                 } else {
                     System.out.print("Inserisci il messaggio da inviare: ");
                     Scanner scanner = new Scanner(System.in);
                     String msg = scanner.nextLine();
-
                     printWriter.println(msg);
                 }
             }
