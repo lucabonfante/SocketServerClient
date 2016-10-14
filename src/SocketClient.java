@@ -14,25 +14,21 @@ public class SocketClient {
 
             while(true) {
 
-                InputStream is = s.getInputStream();
-                InputStreamReader ir = new InputStreamReader(is);
-                BufferedReader inr = new BufferedReader(ir);
-                OutputStream os = s.getOutputStream();
-                OutputStreamWriter or = new OutputStreamWriter(os);
-                BufferedWriter outr = new BufferedWriter(or);
+                BufferedReader inr = new BufferedReader(new InputStreamReader(s.getInputStream()));
+                BufferedWriter outr = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
 
                 System.out.print("Inserisci il messaggio da inviare: ");
                 Scanner scanner = new Scanner(System.in);
                 String msg = scanner.nextLine();
 
-                outr.write(msg, 0, msg.length());
-                outr.newLine();
-                outr.flush();
-
                 if (msg.equals("bye bye")) {
                     s.close();
                     break;
                 }
+
+                outr.write(msg, 0, msg.length());
+                outr.newLine();
+                outr.flush();
 
                 String line = inr.readLine();
                 System.out.println("Server: " + line);
@@ -41,6 +37,7 @@ public class SocketClient {
 
         } catch (Exception e) {
             e.printStackTrace();
+            // TODO: 14/10/2016 stampa server chiuso
         }
 
     }
